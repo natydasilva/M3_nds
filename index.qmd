@@ -1,0 +1,17 @@
+---
+pagetitle: ""
+format: 
+  revealjs: 
+    theme: style.scss
+    multiplex: true
+    transition: fade
+    height: 900
+    width: 1600
+    fontcolor: "#262d36"
+    highlight-style: a11y
+    code-line-numbers: false
+editor: visual
+---
+
+##  {background-image="images/tapa.jpeg" aria-label="image with presentation title and user design."}
+
