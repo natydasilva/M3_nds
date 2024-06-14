@@ -1,8 +1,10 @@
 ---
 format:
-  revealjs:
-    theme:
+  revealjs: 
+    theme: 
      - dark
+nocite: |
+  @*
 ---
 
 ##  {background-image="images/tapa.jpeg" aria-label="image with presentation title and user design."}
