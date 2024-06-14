@@ -2,7 +2,7 @@
 pagetitle: ""
 format: 
   revealjs: 
-    theme: style.css
+    theme: dark
     multiplex: true
     transition: fade
     height: 900
