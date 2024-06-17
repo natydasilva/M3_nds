@@ -1,0 +1,35 @@
+---
+title: "Actividad 1"
+format: pdf
+editor: visual
+---
+
+# Ejercicio 1
+
+Con los datos `mpg` que se encuentran disponible en `ggplot2` hacer un gráfico con las siguientes características:
+
+-   Un diagrama de dispersión de `hwy` vs `cty`
+
+-   Incluir usando `labs` el nombre de los ejes, título informativo y nombre de la leyenda
+
+Usar `?mpg` para ver la descripción de las variables.
+
+# Ejercicio 2
+
+En el gráfico anterior hay un problema de sobre ploteo, esto es hay más de una observación en algunas combinaciones de `cty` y `hwy`.
+
+1.  Hacer el gráfico anterior y usá transparencia (`alpha`) para ver el problema de sobre ploteo.
+
+2.  Hacer el gráfico anterior y usá `geom_jitter()` para atacar el problema de sobre ploteo.
+
+3.  ¿Qué opción te resulta más apropiada y porqué ?
+
+# Ejercicio 3
+
+Usá como base el gráfico del Ejercicio 2 con \`geom_jitter.
+
+1.  Coloreá usando la variable `class`
+
+2.  Usá el gráfico anterior pero cambiando la paleta de colores a `Dark2`. Chequear la ayuda de `?scale_colour_brewer`. Para mirar otras posibles paletas visitar: http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3
+
+3.  Usá la variable `class` para crear un gráfico para cada subconjunto, mirá `?facet_wrap`.
