@@ -1,34 +1,622 @@
 ---
+title: <span style="color:#88398A"> Certificación en Ciencia de datos </span>
+subtitle: <span style="color:#88398A">Módulo 3 - Importancia de la visualiación e intro a ggplot2</span>
+author: <span style="color:#88398A"> <font size="6">Natalia da Silva</span></font>
+date: today
+bibliography: bibliophd.bib
+date-format: YYYY[ -Módulo 3]
 format:
   revealjs: 
-    theme: 
-     - dark
-nocite: |
-  @*
+    theme: default
+    slide-number: c/t
+incremental: false
+embed-resources: true
+logo: logo.png
+widescreen: no
+code-line-numbers: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## <span style="color:#88398A"> Sobre mi</span> 
+
+- Profesora Adjunta en el Instituto de Estadística (IESTA-UDELAR), Uruguay.
+
+-  Lic. en Estadística y Lic. Economía: UDELAR.
+
+- Doctorado y Maestría en Estadística: Iowa State University, USA.
+
+- Temas de investigación: aprendizaje estadístico, estadística computacional, visualización estadística, ciencia de datos e investigación reproducible.
+
+
+---
+
+## [Denominador común]{style="color:#88398A"}
+
+
+![](HWDS.png){width="700px"}
+
+**Estadística** es una ciencia transversal que se encarga de recolectar información, analizar y entender los datos y modelar la incertidumbre de los mismos.
+
+**Métodos computacionales** todo el ciclo de vida de los datos sucede a través de métodos computacionales, desde el registro y almacenamiento, su análisis, y su comunicación.
+
+
+## [Foco hoy]{style="color:#88398A"}
+
+Nos enfocaremos en la visualización de datos.
+
+## [Importancia de la visulización]{style="color:#88398A"}
+
+"The greatest value of a picture is when it forces us to notice what we never expected to see." [@tukey77]
+
+"Graphs provide powerful tools both for analyzing scientific data and for communicating quantitative information" [@cleveland]
+
+
+## [Pocos se escapan a este pensamiento no adecuado]{style="color:#88398A"}
+
+-   Los cálculos numéricos son exactos pero los gráficos son toscos o aproximados.
+
+-   Para cada tipo de datos estadísticos hay un conjunto de cálculos que constituyen un análisis estadístico correcto.
+
+-   Hacer cálculos intrincados es virtuoso mientras que mirar los datos es hacer trampa, [@anscombe].
+
+## [Visualización Estadística]{style="color:#88398A"}
+
+La visualización juega un rol importante en todas las etapas del análisis estadístico.
+
+-   **Exploración:** Encontrar patrones generales y específicos en los datos.
+
+-   **Modelado:** Chequear supuestos sobre los datos antes de modelar. Se puede hacer inferencia gráfica (linea relativamente nueva).
+
+-   **Diagnóstico:** Visualizar el modelo en el espacio de los datos ó los datos en el espacio del modelo.
+
+## [EDA]{style="color:#88398A"}
+
+Análisis exploratorio de datos (EDA en inglés), es un proceso iterativo para explorar ampliamente diversos aspectos de los datos.
+
+Origen: John Tukey incentiva a los estadísticos a explorar los datos, y posiblemente formular hipótesis que podrían llevar a recolectar nuevos datos y experimentos.
+
+---
+
+## [EDA]{style="color:#88398A"}
+
+-   Nos ayuda a entender nuestros datos.
+
+-   Necesitamos definir preguntas que guien nuestra investigación.
+
+-   Cada pregunta se enfoca en algo específico sobre los datos y esto define el tipo de datos, el modelo y las posibles transformaciones.
+
+-   Punto clave definir preguntas interesantes para nuestro problema.
+
+---
+
+## <span style="color:#88398A"> ¿Cuál es la relación entre X e Y?</span>
+  
+```{r, echo=FALSE}
+library(knitr)
+library(dplyr)
+library(kableExtra)
+library(tidyverse)
+dat<- data.frame(t=seq(0, 2*pi, by=0.4) )
+ xhrt <- function(t) 16*sin(t)^3
+ yhrt <- function(t) 13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)
+ dat$y=yhrt(dat$t)
+ dat$x=xhrt(dat$t)
+
+
+X <- c(5.0, 7.8, 11.7,  10.1, 3.4,  -3.9, -10.3, -15.3, -16.9, -14.1,  -8.5,  -1.9,   5.6,  11.3, 10.9, 6.5 ) 
+Y <- c(0.0, 0.9, 5.9, 13.0, 16.0, 12.0, 4.9, 0.6, 0.0, -1.4, -6.9, -13.8, -15.8, -11.0, -4.0,  -0.3 )
+
+dat <- data.frame(X,Y)
+kable(dat)%>%
+  kable_styling( "bordered",full_width = F, font_size = 20)
+
+```
+---
+
+## <span style="color:#88398A"> La relación entre X e Y es amorosa! </span>
+  
+  
+```{r, fig.width = 4, fig.height = 4, fig.align='center', echo=FALSE}
+library(ggplot2)
+ggplot(data = dat) + geom_point(aes(X, Y), color="red", size=3) + geom_path(aes(X, Y), color="red")+theme(aspect.ratio = 1) +coord_flip()
+```
+
+---
+
+## <span style="color:#88398A"> Tranformar datos en tablas </span>
+
+ <img src="gelman.png" width="700" class="center"> 
+ 
+-   Los estadísticos recomiendan el uso de gráficos pero a menudo no siguen esta recomendación cuando presentan su propia investigación.
+
+-   Ellos analizan algunos artículos en JASA y muestran algunos ejemplos de como transformar tablas en gráficos.
+---
+
+## <span style="color:#88398A"> Tranformar datos en tablas </span>
+
+
+-   Ellos dicen que hay una buena razón para ser haraganes, ya que toma mucho tiempo hacer una buena visualización.
+
+-   Buenos gráficos son posibles, especialmente cuando pensamos en la razón de querer mostrar los valores en primer lugar.
+
+-   Si las revistas top en el área de estadística no lo hace aún bien existe espacio para seguir mejorando.
+
+[@gelman2002let]
+
 ---
 
 
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
 
-#Motivation
+```{r, echo=FALSE}
 
-Learning Management Systems (LMS) for various objectives has become a key tool in education. A huge volume of student and teacher data is generated by LMS on a daily basis.
+library(datasauRus)
+datasaurus_dozen %>% filter(dataset == "slant_up")%>%
+  ggplot() + geom_point(aes(x,y)) + 
+  theme(axis.text.x  = element_text(size = 20), 
+        axis.text.y = element_text(size = 20),
+        axis.title.x = element_text(size=20), 
+        axis.title.y = element_text(size=20), 
+        aspect.ratio = 1)
+```
 
-Transforming this data into relevant information for decision-making is a major challenge due to the complexity of the data structure and the difficulty of summarizing the learning process with registered information.
----
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
 
-## Presentation objetives
+```{r, echo=FALSE}
 
-- This talk focuses on statistical tools for the evaluation and monitoring of LMS use by students and teachers. First, a web application was developed as a tool that allows monitoring the use of educational platforms in a user-friendly manner.
+datasaurus_dozen %>% filter(dataset == "slant_up")%>%
+  ggplot() + geom_point(aes(x,y)) + theme(axis.text.x  = element_text(size = 20),
+                                          axis.text.y = element_text(size = 20), axis.title.x = element_text(size=20), axis.title.y=element_text(size=20),
+                                          aspect.ratio = 1)
 
-- Additionally, statistical learning methods were used to predict students' performance in tests using LMS information as predictors. Challenges such as data structure and size present many hurdles in this project. Most of these challenges are addressed using efficient computational tools at each stage of data analysis.
-
----
-
-
-
-Postgres serves as the SQL engine, data.table is used for data wrangling, and shiny, plotly, and ggplot2 are employed for communication and visualization. Finally, tidymodels and dbart are utilized for predictive models.
-
-
-
+a <- datasaurus_dozen %>% filter(dataset == "slant_up") %>%
+  select(x,y) %>% summarise(mean(x), mean(y)) 
 
  
+```
+
+$\bar x =$ `r round(a[[1]],2)` y $\bar y =$ `r round(a[[2]],2)`
+
+------------------------------------------------------------------------
+
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
+
+```{r, echo=FALSE}
+
+datasaurus_dozen %>% filter(dataset == "star")%>%
+  ggplot() + geom_point(aes(x,y)) + theme(axis.text.x  = element_text(size = 20), axis.text.y = element_text(size = 20), axis.title.x = element_text(size=20), axis.title.y=element_text(size=20),
+                                           aspect.ratio = 1)
+
+```
+
+------------------------------------------------------------------------
+
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
+
+```{r, echo=FALSE}
+datasaurus_dozen %>% filter(dataset == "star")%>%
+  ggplot() + geom_point(aes(x,y)) + theme(axis.text.x  = element_text(size = 20), axis.text.y = element_text(size = 20), axis.title.x = element_text(size=20), axis.title.y=element_text(size=20),
+                                           aspect.ratio = 1)
+
+a <- datasaurus_dozen %>% filter(dataset == "star") %>%
+  select(x,y) %>% summarise(mean(x), mean(y)) 
+
+ 
+```
+
+$\bar x =$ `r round(a[[1]],2)` y $\bar y =$ `r round(a[[2]],2)`
+
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
+
+```{r, echo=FALSE,fig.height=6,fig.width=6}
+
+datasaurus_dozen %>% filter(dataset == "dino")%>%
+  ggplot() + geom_point(aes(x,y)) + theme(axis.text.x  = element_text(size = 20), axis.text.y = element_text(size = 20), axis.title.x = element_text(size = 20), axis.title.y = element_text(size = 20))
+
+```
+
+## [¿Cuánto es la media muestral para x e y?]{style="color:#883984"}
+
+```{r,echo=FALSE,fig.height=6,fig.width=6}
+
+datasaurus_dozen %>% filter(dataset == "dino")%>%
+  ggplot() + geom_point(aes(x,y)) + theme(axis.text.x  = element_text(size = 20), axis.text.y = element_text(size = 20), axis.title.x = element_text(size = 20), axis.title.y = element_text(size = 20))
+
+a <- datasaurus_dozen %>% filter(dataset == "dino") %>%
+  select(x,y) %>% summarise(mean(x), mean(y)) 
+
+ 
+```
+
+$\bar x =$ `r round(a[[1]],2)` y $\bar y =$ `r round(a[[2]],2)`
+
+## [¿Porqué usamos visualización?]{style="color:#883984"}
+
+::: columns
+::: {.column width="60%"}
+
+![](https://damassets.autodesk.net/content/dam/autodesk/research/publications-assets/gifs/same-stats-different-graphs/DinoSequentialSmaller.gif)
+
+- [@matejka2017same]
+
+- [datasauRus en GitHub](https://github.com/stephlocke/datasauRus)
+
+
+:::
+
+::: {.column width="40%"}
+-   Mismos resumenes estadísticos.
+
+-   Pero distribuciones muy diferentes.
+
+-   [Link algoritmo](https://www.autodeskresearch.com/publications/samestats).
+:::
+:::
+
+## [¿Porqué usamos visualización?]{style="color:#883984"}
+
+::: columns
+::: {.column width="60%"}
+-  Anscombe’s quartet
+-   [@anscombe]
+![](Quartet.png){width="400px"}
+
+:::
+
+::: {.column width="40%"}
+-   Los gráficos proveen más información que los resúmenes numéricos..
+-   $n = 11$
+-   $\bar x= 9.0$
+-   $\bar y = 7.5$
+-   $\hat \beta_1= 0.5$
+-   $y = 3 + 0.5 x$
+-   $R^2 = 0.667$
+-   $....$
+:::
+:::
+
+## [Visualizaciones efectivas]{style="color:#883984"}
+
+-   No todas las visualizaciones son igualmente efectivas.
+
+-   Hay diferentes criterios para evaluar gráficos (Cleveland, Tufte, Car, Wainer, etc).
+
+-   Basado en el estudio de la percepción gráfica.
+
+-   Las mejores visualizaciones son aquellas que requieren el uso de la visión "pre-attentive" (instantáneo, sin aparente esfuerzo visual) [@cleveland].
+
+Mencionaremos algunos de ellos en proximas clases!
+
+## [Introducción a la Gramática gráfica]{style="color:#88398A"}
+
+[@wilkinson2006grammar] creó la gramática gráfica que describe las característica esenciales que componen todo gráfico estadístico.
+
+¿Qué es una gramática?
+
+La gramática es un conjunto de reglas que ayudan a definir y establecer componentes de un lenguaje. La gramática gráfica es un marco que nos permite describir los componentes de cualquier gráfico, define reglas gramaticales para crear gráficos.
+---
+
+## [Gramática gráfica]{style="color:#88398A"}
+
+La gramática gráfica responde las siguientes preguntas:
+
+- ¿Qué es un gráfico estadístico
+
+- ¿Cómo describir un gráfico?
+
+- ¿Cómo crear un gráfico?
+
+**Un gráfico estadístico es un mapeo de los datos a atributos estéticos (ejem: color, forma, tamaño) de objetos geométricos (ejem: puntos, lineas, barras)**
+
+--- 
+
+## [Gramática gráfica en capas]{style="color:#88398A"}
+
+[@wickham2010layered] presenta una parametrización alternativade la gramática gráfica [@wilkinson2006grammar].
+
+Gramática gráfica en capas, construye un gráfico en base a capas múltiples de datos.
+
+GGC difiere de GG en la forma en que se disponen los componentes de un gráfico, el desarrollo de una jerarquía por defecto y el lenguaje de programación donde se desarrolla.
+---
+
+## [Visualización de datos con ggplot2]{style="color:#88398A"}
+
+**¿Qué es ggplot2?:**
+
+-   **ggplot2** es un paquete para producir gráficos estadísticos o de datos desarrollado por [@wickham2016ggplot2].
+
+-   Tiene una teoría que lo sustenta basada en el Grammar of Graphics [@wilkinson2006grammar] usada para definir GGC.
+
+-   Es el paquete de gráficos estadísticos más dominante en R, tiene casi 17 años ( 10/06/2007)
+
+-   [ggplot2: Elegant Graphics for Data Analysis](https://github.com/hadley/ggplot2-book)
+---
+
+## [¿Porqué usar ggplot2?]{style="color:#88398A"}
+
+**Principales:**
+
+-   Porque las visualizaciones realizadas con ggplot2 tienen un sustento teórico basado en la gramática gráfica.
+
+-   Permite por defecto realizar gráficos de calidad publicable
+
+-   Suficientemente flexible para realizar visualizaciones, previamente definidas o totalmente novedosas.
+
+-   Paquete en su versión estable, con un equipo que lo mantiene actualizado (Posit)
+---
+ 
+## [Gramática de gráficos (gg)]{style="color:#88398A"}
+
+-   Un estadístico es una función de los datos, como la media muestral $\bar x = \sum_{i=1}^n \frac{x_i}{n}$ o la varianza muestral $S^2 = \sum_{i=1}^n \frac{(xi- \bar x)^2}{n-1}$
+
+-   La gramática gráfica provee una estrecha conexión entre los datos y estadísticos.
+
+-   **Punto clave sobre `ggplot2`, es que hace de los gráficos otro tipo de estadísticos.**
+
+-   Un gráfico estadístico basado en GG es un mapeo de los **datos** a atributos estéticos (tamaño, color, forma) de objetos geométricos (lineas, puntos, barras)
+
+
+## [¿Porqué usar una gramática gráfica ?]{style="color:#88398A"}
+
+::: columns
+::: {.column width="40%"}
+-   Graficar cosas que sabés
+
+-   Crear nuevas visualizaciones
+
+-   Tal vez encontrar mejores gráficos para visualizar tus datos
+:::
+
+::: {.column width="60%"}
+El límite es tu imaginación! ![](https://media.giphy.com/media/26BoEeFJkz2eZUBcQ/giphy.gif)\>
+:::
+:::
+
+## [`ggplot2`]{style="color:#88398A"}
+
+-   Conjunto de componentes independientes, le da flexibilidad
+
+-   No limitado a gráficos pre determinados, crear lo que quieras
+
+-   Definido en base a un conjunto de principios, fácil de aprender
+
+-   Podés producir gráficos estandard de calidad publicable en poco tiempo
+
+-   Diseñado para trabajar iterativamente agregando capas
+
+---
+
+## <span style="color:#88398A">Gramática de gráficos </span>
+
+Todos los gráficos se componen de **data** y los mapeos entre los datos y los atributos estéticos.
+
+Hay 5 componentes de mapeo, 
+
+- **layers**
+- **scales**
+- **coord**
+- **facets**
+- **theme** 
+---
+
+## <span style="color:#88398A">Gramática de gráficos </span>
+
+- **layers**: elementos geométricos (**geoms**, son puntos, lineas, rectángulos, texto, ...) y transformaciones estadísticas (**stats**, son identidades, conteos, bins,...)
+
+- **scales**: mapea valores en el espacio de los datos a valores en el espacio estético (color, tamaño, forma). También dibuja leyendas y ejes.
+
+- **coord**: describe como las coordenadas de los datos son mapeadas al plano del gráfico, también define ejes y lineas guias que ayudan a leer el gráfico.   Normalmente Cartesianas, pero ej pie charts ej; polar.
+
+---
+
+## <span style="color:#88398A">Gramática de gráficos </span>
+
+- **facets**: como subdividir y organizar subconjuntos de datos. Mismo gráfico con distintos subconjuntos de datos.
+
+- **theme** controla los detalles para mejorar la visualización,  como el tamaño de la fuente, color de fondo ...
+---
+
+## <span style="color:#88398A">De ahora en más se espera que...</span>
+
+![](https://media.giphy.com/media/11BbGyhVmk4iLS/giphy.gif)
+
+---
+
+
+
+## [Instalar ggplot2]{style="color:#88398A"}
+
+-   Instalar ggplot2
+
+``` r
+install.packages("ggplot2") 
+```
+
+```{r}
+library(ggplot2) 
+```
+
+Versión en desarrollo: https://github.com/tidyverse/ggplot2
+
+``` r
+install.packages("devtools")
+library(devtools)
+install_github("tidyverse/ggplot2")
+```
+
+es parte de `tidyverse` qué veremos luego.
+
+## [Ejemplo propina]{style="color:#88398A"}
+
+```{r echo=TRUE}
+# cargamos los datos disponibles en EVA
+library(tidyverse)
+propinas <- read_csv("propina.csv")
+head(propinas)
+```
+
+## [Tres componentes básicos de todo plot]{style="color:#88398A"}
+
+-   **data**: datos a visualizar
+
+-   **aes**: un conjunto de mapeos estéticos entre las variables en los datos y las propiedades visuales (ejem: color, tamaño).
+
+-   **layer**: al menos una capa que describe como representar cada observación. Las capas son creadas con la función **geom**.
+
+
+## [Tres componentes de todo plot]{style="color:#88398A"}
+
+-   **data**: propina
+-   **aes**: total mapeado a la posición x , propina a la posición y.
+-   **layer**: puntos mediante `geom_point`.
+
+```{r, echo = TRUE, fig.height = 4, fig.width = 4, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE ,eval=FALSE}
+ggplot(data = propinas, aes(x = total, y = propina)) +  
+  geom_point() +
+  theme(aspect.ratio = 1)
+
+```
+
+- `aspect.ratio` es el ratio entre el ancho y el alto
+---
+
+## [Diagrama de dispersion, datos propinas]{style="color:#88398A"}
+
+```{r, echo = FALSE, fig.height = 6, fig.width = 6, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE}
+ggplot(data = propinas, aes(x = total, y = propina)) +  
+  geom_point() +
+  theme(aspect.ratio = 1)
+
+```
+---
+
+## [Ejemplo propina]{style="color:#88398A"}
+
+¿Qué vemos?
+
+-   Hay una relación lineal débil entre propina y la cuenta total
+
+-   Hay mucha variabilidad
+
+-   Las lineas horizontales indican la preferencia de la gente a dar de a 1 dólar de propina c/u
+
+## [Color, tamaño, forma y otros aes]{style="color:#88398A"}
+
+Para agregar otras variables al gráfico podemos usar otros **aes** como color, forma o tamaño
+
+``` r
+aes(x = total, y = propina, colour = sexo)
+
+aes(x = total, y = propina, shape = sexo)
+
+aes(x = total, y = propina, size = cantidad)
+```
+
+## [Color]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, cache = TRUE, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina, colour = sexo)) +
+  geom_point() + theme(aspect.ratio = 1)
+   
+ 
+```
+
+## [Color fijo]{style="color:#88398A"}
+
+Si queremos fijar un elemento estético a un valor fijo hay que hacerlo en la capa de afuera sin aes o usar `I('blue')` en aes
+
+```{r, echo = TRUE, fig.height = 5, fig.width = 5, cache = TRUE, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina) )+
+  geom_point(colour = "blue") + theme(aspect.ratio = 1)
+   
+ 
+```
+
+## [Forma]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, message = FALSE, fig.align = "center", strip.white = TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina, shape = sexo)) +
+  geom_point() + theme(aspect.ratio = 1)
+   
+ 
+```
+
+## [Tamaño]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina, size = cantidad)) +
+  geom_point(alpha = 1 / 3) + theme(aspect.ratio = 1)
+   
+ 
+```
+
+`alpha = 1/3` transparencia donde cada punto es 1/3 del color
+
+## [Tamaño]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, cache = TRUE, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina) ) +
+  geom_point(size = 5, alpha = 1 / 3) + theme(aspect.ratio = 1)
+   
+ 
+```
+
+## [Etiquetas a los ejes]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, cache = TRUE, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+
+ggplot(data = propinas, aes(x = total, y = propina) ) +
+  geom_point(size = 5, alpha = 1 / 3) + theme(aspect.ratio = 1) + 
+  labs(x = "Total de la cuenta en dólares", y =  "Propina en dólares")
+   
+ 
+```
+
+## [Paneles]{style="color:#88398A"}
+
+-   Se pueden desplegar variables categóricas adicionales en un gráfico particionando el panel.
+
+-   Crea tablas de gráficos partiendo los datos en subconjuntos y mostrándolos el mismo gráfico para cada subconjunto.
+
+-   Dos tipos: `facet_grid` y `facet_wrap`
+
+## [`facet_wrap`]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 7, fig.width = 7, cache = TRUE, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+ggplot(data = propinas, aes(x = total, y = propina)) +
+  geom_point() +  theme(aspect.ratio = 1) +
+ facet_wrap( ~sexo)
+ 
+```
+
+## [`facet_grid`]{style="color:#88398A"}
+
+```{r, echo = TRUE, fig.height = 6, fig.width = 6, warning = FALSE, message=FALSE,fig.align="center", strip.white=TRUE }
+ggplot(data = propinas, aes(x = total, y = propina)) +
+  geom_point() + theme(aspect.ratio = 1) +
+ facet_grid(sexo ~fuma)
+ 
+```
+
+
+## <span style="color:#88398A">Tu turno </span>
+![](https://media.giphy.com/media/YlSIESTw3bjAC0BzJg/giphy.gif)
+---
+
+## <span style="color:#88398A">Material del curso</span>
+
+Todo el material de este curso está bajo licencia Creative Commons BY-NC-SA 3.0
+
+<img src="cc.png" height="200px" width="400px" />
+---
+
+
